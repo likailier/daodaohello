@@ -6,5 +6,9 @@
     <select id="getUserByMassage" resultType="java.lang.Integer">
     SELECT count(id) FROM login
     WHERE login_name=#{username} AND login_password=#{password}
-</select>
+    </select>
+
+    <select id="userloginById" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `user` WHERE UserId = #{loginUserId} AND `Password` = #{password};
+    </select>
 </mapper>

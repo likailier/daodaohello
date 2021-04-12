@@ -4,46 +4,77 @@ import java.util.Date;
 
 public class User {
 
-    private int id;
+    private int userId;
     private String name;
     private int sex;
-    private Date birthday;
-    private int phone;
+    private String phone;
     private String email;
-    private String identity;
-    private int school_id;
-    private int faculty_id;
-    private int major_id;
-    private String user_name;
-    private String head_image;
-    private int experience;
-    private String extend_json;
-
+    private int age;
+    private int roleId;
+    private Date birthDate;
+    private String school;
+    private String academy;
+    private String major;
+    private Date creationDate;
+    private String creator;
+    private String modifier;
+    private Date modificationDate;
+    private String password;
     public User() {
     }
 
-    public User(String name, int sex, Date birthday, int phone, String email, String identity, int school_id, int faculty_id, int major_id, String user_name, String head_image, int experience, String extend_json) {
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", sex=" + sex +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", roleId=" + roleId +
+                ", birthDate=" + birthDate +
+                ", school='" + school + '\'' +
+                ", academy='" + academy + '\'' +
+                ", major='" + major + '\'' +
+                ", creationDate=" + creationDate +
+                ", creator='" + creator + '\'' +
+                ", modifier='" + modifier + '\'' +
+                ", modificationDate=" + modificationDate +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
+    public User(int userId,String name, int sex, String phone, String email, int age, int roleId, Date birthDate, String school, String academy, String major, Date creationDate, String creator, String modifier, Date modificationDate, String password) {
+        this.userId = userId;
         this.name = name;
         this.sex = sex;
-        this.birthday = birthday;
         this.phone = phone;
         this.email = email;
-        this.identity = identity;
-        this.school_id = school_id;
-        this.faculty_id = faculty_id;
-        this.major_id = major_id;
-        this.user_name = user_name;
-        this.head_image = head_image;
-        this.experience = experience;
-        this.extend_json = extend_json;
+        this.age = age;
+        this.roleId = roleId;
+        this.birthDate = birthDate;
+        this.school = school;
+        this.academy = academy;
+        this.major = major;
+        this.creationDate = creationDate;
+        this.creator = creator;
+        this.modifier = modifier;
+        this.modificationDate = modificationDate;
+        this.password = password;
     }
 
-    public int getId() {
-        return id;
+    public User(int userId, String password) {
+        this.userId = userId;
+        this.password = password;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -62,19 +93,11 @@ public class User {
         this.sex = sex;
     }
 
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -86,87 +109,91 @@ public class User {
         this.email = email;
     }
 
-    public String getIdentity() {
-        return identity;
+    public int getAge() {
+        return age;
     }
 
-    public void setIdentity(String identity) {
-        this.identity = identity;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    public int getSchool_id() {
-        return school_id;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setSchool_id(int school_id) {
-        this.school_id = school_id;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
-    public int getFaculty_id() {
-        return faculty_id;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setFaculty_id(int faculty_id) {
-        this.faculty_id = faculty_id;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public int getMajor_id() {
-        return major_id;
+    public String getSchool() {
+        return school;
     }
 
-    public void setMajor_id(int major_id) {
-        this.major_id = major_id;
+    public void setSchool(String school) {
+        this.school = school;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public String getAcademy() {
+        return academy;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setAcademy(String academy) {
+        this.academy = academy;
     }
 
-    public String getHead_image() {
-        return head_image;
+    public String getMajor() {
+        return major;
     }
 
-    public void setHead_image(String head_image) {
-        this.head_image = head_image;
+    public void setMajor(String major) {
+        this.major = major;
     }
 
-    public int getExperience() {
-        return experience;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setExperience(int experience) {
-        this.experience = experience;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public String getExtend_json() {
-        return extend_json;
+    public String getCreator() {
+        return creator;
     }
 
-    public void setExtend_json(String extend_json) {
-        this.extend_json = extend_json;
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", sex=" + sex +
-                ", birthday=" + birthday +
-                ", phone=" + phone +
-                ", email='" + email + '\'' +
-                ", identity='" + identity + '\'' +
-                ", school_id=" + school_id +
-                ", faculty_id=" + faculty_id +
-                ", major_id=" + major_id +
-                ", user_name='" + user_name + '\'' +
-                ", head_image='" + head_image + '\'' +
-                ", experience=" + experience +
-                ", extend_json='" + extend_json + '\'' +
-                '}';
+    public String getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(String modifier) {
+        this.modifier = modifier;
+    }
+
+    public Date getModificationDate() {
+        return modificationDate;
+    }
+
+    public void setModificationDate(Date modificationDate) {
+        this.modificationDate = modificationDate;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

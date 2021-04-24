@@ -1,20 +1,20 @@
 package com.example.daoyun.exception;
 
 public class SweetException extends RuntimeException{
-    private int code;
+    private String code;
     private String msg;
 
-    public SweetException(int code, String msg){
+    public SweetException(String code, String msg){
         super(msg);
         this.code = code;
         this.msg = msg;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

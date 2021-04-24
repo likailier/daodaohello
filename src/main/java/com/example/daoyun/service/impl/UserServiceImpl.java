@@ -1,7 +1,8 @@
 package com.example.daoyun.service.impl;
 
-import com.example.daoyun.bean.User;
-import com.example.daoyun.dao.UserDao;
+import com.example.daoyun.dao.LoginDao;
+import com.example.daoyun.domain.Login;
+import com.example.daoyun.domain.User;
 import com.example.daoyun.exception.SweetException;
 import com.example.daoyun.service.UserService;
 import com.example.daoyun.util.ResultCodeEnum;
@@ -14,22 +15,30 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserDao userDao;
+    LoginDao userDao;
 
     @Override
-    public int userLogin(User loginUser) {
-        if (loginUser.getPhone() == null && loginUser.getEmail() == null && loginUser.getUserId()+"" == null){
+    public int userLogin(Login login) {
+        if (login.getPassword() == null){
+            throw new SweetException(ResultCodeEnum.LoginError.getCode(),"密码不能为空");
+        }
+        if (login.getPhone() == null && login.getEmail() == null && login.getUser_number()+"" == null){
             throw new SweetException( ResultCodeEnum.LoginError.getCode(),"登录名不能为空");
         }
-        if (loginUser.getPhone()!= null){
-            return userDao.userloginByPhone(loginUser.getPhone(),loginUser.getPassword());
+        if (login.getPhone() != null){
+            return userDao.userloginByPhone(login.getPhone(),login.getPassword());
         }
-        if (loginUser.getEmail()!= null){
-            return userDao.userloginByEmail(loginUser.getEmail(),loginUser.getPassword());
+        if (login.getEmail()!= null){
+            return userDao.userloginByEmail(login.getEmail(),login.getPassword());
         }
-        if (loginUser.getUserId()+"" != null){
-            return userDao.userloginById(loginUser.getUserId(),loginUser.getPassword());
+        if (login.getUser_number()+"" != null){
+            return userDao.userloginById(login.getUser_number(),login.getPassword());
         }
         return 0;
+    }
+
+    @Override
+    public User getUser(int number) {
+        return userDao.getUser(number);
     }
 }

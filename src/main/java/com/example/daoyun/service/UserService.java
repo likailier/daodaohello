@@ -6,5 +6,7 @@ import com.example.daoyun.domain.User;
 public interface UserService {
 
     int userLogin(Login login);
-    User getUser(int number);
+    User getUser(String phone);
+    int checkPhone(String phone);
+    int register(Login login);
 }

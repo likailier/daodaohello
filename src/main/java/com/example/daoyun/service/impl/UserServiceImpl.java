@@ -19,26 +19,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int userLogin(Login login) {
-        if (login.getPassword() == null){
-            throw new SweetException(ResultCodeEnum.LoginError.getCode(),"密码不能为空");
-        }
-        if (login.getPhone() == null && login.getEmail() == null && login.getUser_number()+"" == null){
-            throw new SweetException( ResultCodeEnum.LoginError.getCode(),"登录名不能为空");
-        }
-        if (login.getPhone() != null){
+        System.out.println("服务层"+login.getPhone()+login.getPassword());
             return userDao.userloginByPhone(login.getPhone(),login.getPassword());
-        }
-        if (login.getEmail()!= null){
-            return userDao.userloginByEmail(login.getEmail(),login.getPassword());
-        }
-        if (login.getUser_number()+"" != null){
-            return userDao.userloginById(login.getUser_number(),login.getPassword());
-        }
+    }
+
+    @Override
+    public User getUser(String phone) {
+        return userDao.getUser(phone);
+    }
+
+    @Override
+    public int register(Login login) {
+        login.setRole(3);//默认为学生用户
+        userDao.register(login.getPhone(),login.getPassword(),login.getRole());
         return 0;
     }
 
     @Override
-    public User getUser(int number) {
-        return userDao.getUser(number);
+    public int checkPhone(String phone) {
+        return userDao.checkPhone(phone);
     }
 }

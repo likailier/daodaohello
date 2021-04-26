@@ -2,6 +2,7 @@ package com.example.daoyun.intercepors;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.example.daoyun.util.JWTutil;
 import com.example.daoyun.util.ResultCodeEnum;
@@ -23,32 +24,18 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("token");
-        System.out.println(token);
+        System.out.println("进入拦截器，生成token令牌："+token);
         if (token == null || token.equals("")) {
             returnResponse(response, ResultCodeEnum.TokenError.getCode(), "没有身份令牌，请重新登录");
             return false;
         }
         try{
-            Map<String, Claim> map = JWTutil.verifyToken(token);
-            System.out.println(map);
-
-            if (map == null) {
-                returnResponse(response, ResultCodeEnum.TokenError.getCode(), "无效的身份令牌");
-                return false;
-            }
-
-            String localToken = map.get("number").toString();//userId的类型 jwt的claim是int，jedis是string
-            System.out.println(localToken);
-            if (localToken == null || localToken.equals("")) {
-                returnResponse(response, ResultCodeEnum.TokenError.getCode(), "身份令牌已失效，请重新登录");
-                return false;
-            } else {
-                System.out.println("token认证");
-                returnResponse(response, "0", "验证成功");
-                return true;
-            }
+            JWTutil.verifyToken(token);
+            return true;
+        }catch (TokenExpiredException e){
+            returnResponse(response,ResultCodeEnum.TokenError.getCode(), "身份令牌超时");
         }catch (Exception e){
-            returnResponse(response, ResultCodeEnum.TokenError.getCode(), "身份令牌不符");
+            returnResponse(response, ResultCodeEnum.TokenError.getCode(), "身份令牌无效,请重新登录");
         }
         return false;
     }

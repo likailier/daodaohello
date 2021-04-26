@@ -13,6 +13,21 @@
     </select>
 
     <select id="getUser" resultType="com.example.daoyun.domain.User">
-        select * from `user` where number = #{number};
+        select * from `user` where phone = #{phone};
     </select>
+
+    <select id="checkPhone" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `login` WHERE phone = #{phone}
+    </select>
+
+    <select id="userloginByPhone" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `login` WHERE phone = #{phone} AND `password` = #{password};
+    </select>
+
+    <insert id="register">
+        insert into login
+        (phone, password, role)
+        VALUE
+        (#{phone},#{password},#{role})
+    </insert>
 </mapper>

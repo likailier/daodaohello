@@ -41,10 +41,10 @@ public class Result<T> implements Serializable {
         return Result.success(null);
     }
 
-    public static Result failure(ResultCodeEnum resultCodeEnum) {
+    public static Result failure(String code, String msg) {
         return new Result()
-                .setCode(resultCodeEnum.getCode())
-                .setMsg(resultCodeEnum.getMsg());
+                .setCode(code)
+                .setMsg(msg);
     }
 
     public static <T> Result<T> success(T obj) {

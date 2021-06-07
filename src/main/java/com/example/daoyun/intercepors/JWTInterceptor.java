@@ -26,16 +26,16 @@ public class JWTInterceptor extends HandlerInterceptorAdapter {
         String token = request.getHeader("token");
         System.out.println("进入拦截器，生成token令牌："+token);
         if (token == null || token.equals("")) {
-            returnResponse(response, ResultCodeEnum.TokenError.getCode(), "没有身份令牌，请重新登录");
+            returnResponse(response, "0", "请重新登录");
             return false;
         }
         try{
             JWTutil.verifyToken(token);
             return true;
         }catch (TokenExpiredException e){
-            returnResponse(response,ResultCodeEnum.TokenError.getCode(), "身份令牌超时");
+            returnResponse(response,"0", "身份令牌超时");
         }catch (Exception e){
-            returnResponse(response, ResultCodeEnum.TokenError.getCode(), "身份令牌无效,请重新登录");
+            returnResponse(response, "0", "身份令牌无效,请重新登录");
         }
         return false;
     }

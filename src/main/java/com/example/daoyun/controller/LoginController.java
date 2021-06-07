@@ -32,21 +32,20 @@ public class LoginController {
 
         System.out.println("登录"+login);
         if (login.getPhone() == null ||login.getPassword() == null || login.getPhone().equals("") ||login.getPassword().equals("")){
-            return Result.failure(ResultCodeEnum.LoginError.getCode(), "账号密码不能为空");
+            return Result.failure("0", "账号密码不能为空");
         }
-        if (userService.checkPhone(login.getPhone()) != 1){
-            return Result.failure(ResultCodeEnum.LoginError.getCode(),"账号密码错误或账号不存在");
+        if (userService.userLogin(login) != 1){
+            return Result.failure("0","账号密码错误或账号不存在");
         }
 
         try{
-            User user = userService.getUser(login.getPhone());
-            token = JWTutil.createToken(user);
+            token = JWTutil.createToken(login.getPhone());
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.failure(ResultCodeEnum.LoginError.getCode(),"未知错误");
+            return Result.failure("0","参数出错");
         }
 
-        return Result.success().setCode(ResultCodeEnum.Login.getCode()).setMsg("登陆成功").setData(token);
+        return Result.success().setCode("200").setMsg("登陆成功").setData(token);
 
     }
 
@@ -55,26 +54,25 @@ public class LoginController {
     public Result fastLogin(@RequestParam String phone,@RequestParam String verifycode){
         String token;
         if (phone==null || phone.equals("")){
-            return Result.failure(ResultCodeEnum.LoginError.getCode(), "账号不能为空");
+            return Result.failure("0", "账号不能为空");
         }
         if (userService.checkPhone(phone) != 1){
-            return Result.failure(ResultCodeEnum.LoginError.getCode(),"账号密码错误或账号不存在");
+            return Result.failure("0","账号密码错误或账号不存在");
         }
         String code = JedisUtil.getVerifycode(phone);
         if (code == null){
-            return Result.failure(ResultCodeEnum.LoginError.getCode(), "请输入验证码");
+            return Result.failure("0", "请重新输入验证码");
         }
         if (JedisUtil.getVerifycode(phone).equals(verifycode)){
             try{
-                User user = userService.getUser(phone);
-                token = JWTutil.createToken(user);
+                token = JWTutil.createToken(phone);
             } catch (Exception e) {
                 e.printStackTrace();
-                return Result.failure(ResultCodeEnum.LoginError.getCode(),"未知错误");
+                return Result.failure("0","参数出错");
             }
-            return Result.success().setCode(ResultCodeEnum.OK.getCode()).setMsg("登陆成功").setData(token);
+            return Result.success().setCode("200").setMsg("登陆成功").setData(token);
         }
-        return Result.failure(ResultCodeEnum.LoginError.getCode(), "验证码错误");
+        return Result.failure("0", "验证码错误");
     }
 
 
@@ -83,13 +81,34 @@ public class LoginController {
     @RequestMapping("/register")
     public Result register(@RequestBody Login login){
         if (login.getPhone() == null ||login.getPassword() == null || login.getPhone().equals("") ||login.getPassword().equals("")){
-            return Result.failure(ResultCodeEnum.RegisterError.getCode(), "账号密码不能为空");
+            return Result.failure("0", "账号密码不能为空");
         }
         if (userService.checkPhone(login.getPhone()) == 1){
-            return Result.failure(ResultCodeEnum.RegisterError.getCode(), "账号已存在");
+            return Result.failure("0", "账号已存在");
         }
         userService.register(login);
-        return Result.success().setCode(ResultCodeEnum.Register.getCode()).setMsg("注册成功");
+        return Result.success().setCode("200").setMsg("注册成功");
+    }
+
+
+    @RequestMapping("/fastregister")
+    public Result fastRegister(@RequestParam String phone,@RequestParam String verifycode){
+        if (phone==null || phone.equals("")){
+            return Result.failure("0", "账号不能为空");
+        }
+        if (userService.checkPhone(phone) == 1){
+            return Result.failure("0", "账号已存在");
+        }
+        String code = JedisUtil.getVerifycode(phone);
+        if (code == null){
+            return Result.failure("0", "请重新输入验证码");
+        }
+        if (code.equals(verifycode)){
+            userService.fastregister(phone);
+            return Result.success().setCode("200").setMsg("注册成功");
+        }
+        return Result.failure("0", "验证码错误");
+
     }
 
 

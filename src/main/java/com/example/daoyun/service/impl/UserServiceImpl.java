@@ -32,6 +32,14 @@ public class UserServiceImpl implements UserService {
     public int register(Login login) {
         login.setRole(3);//默认为学生用户
         userDao.register(login.getPhone(),login.getPassword(),login.getRole());
+        userDao.createUser(login.getPhone(),login.getRole());
+        return 0;
+    }
+
+    @Override
+    public int fastregister(String phone) {
+        userDao.fastregister(phone,3);
+        userDao.createUser(phone,3);
         return 0;
     }
 
@@ -39,4 +47,6 @@ public class UserServiceImpl implements UserService {
     public int checkPhone(String phone) {
         return userDao.checkPhone(phone);
     }
+
+
 }

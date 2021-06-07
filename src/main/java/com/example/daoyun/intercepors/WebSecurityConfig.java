@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/userlogin","/register","/sendsms**","/fastlogin");
+                .excludePathPatterns("/userlogin","/register","/sendsms","/fastlogin","/fastregister");
     }
 
 

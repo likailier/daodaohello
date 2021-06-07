@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daoyun.dao.DictDao">
+    <resultMap id="DictMap" type="com.example.daoyun.domain.Dict">
+        <id column="dictionary_id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="item_key" property="itemkey"/>
+        <result column="item_value" property="itemvalue"/>
+        <result column="is_default" property="isDefault"/>
+        <result column="name" property="name"/>
+        <result column="order_number" property="sortNum"/>
+    </resultMap>
+
+<insert id="insertDictDetail" parameterType="com.example.daoyun.domain.Dict">
+    insert into dictionary_detail(dictionary_id,code,item_key,item_value,order_number,is_default)
+    VALUE (DEFAULT,#{code},#{itemkey},#{itemvalue},#{sortNum},#{isDefault})
+</insert>
+
+<insert id="insertDictType" parameterType="com.example.daoyun.domain.Dict">
+    insert into dictionary(dictionary_id,name,code)
+    VALUE (DEFAULT,#{name},#{code})
+</insert>
+
+<delete id="deleteDictDetail">
+    delete from dictionary_detail where dictionary_id=#{id}
+</delete>
+
+<delete id="deleteDictDetailByCode">
+    delete from dictionary_detail where code=(select code from dictionary where dictionary_id=#{id})
+</delete>
+
+<delete id="deleteDictType">
+    delete from dictionary where dictionary_id=#{id}
+</delete>
+
+<update id="updateDictDetail">
+    update dictionary_detail
+    <set>
+        <if test="itemkey!=null">item_Key=#{itemkey},
+        </if>
+        <if test="itemvalue!=null">item_value=#{itemvalue},
+        </if>
+        <if test="isDefault!=null">is_default=#{isDefault},
+        </if>
+        <if test="sortNum!=null">order_number=#{sortNum},
+        </if>
+    </set>
+    where dictionary_id=#{id}
+</update>
+
+<update id="updateDictType">
+    update dictionary
+    <set>
+        <if test="name!=null">name=#{name},
+        </if>
+        <if test="code!=null">code=#{code},
+        </if>
+    </set>
+    where dictionary_id=#{id}
+</update>
+
+<select id="selectAllType" resultMap="DictMap">
+    select * from dictionary
+</select>
+
+<select id="selectDetailByCode" resultMap="DictMap">
+    select * from dictionary_detail where code=#{code}
+</select>
+
+</mapper>

@@ -30,4 +30,18 @@
         VALUE
         (#{phone},#{password},#{role})
     </insert>
+
+    <insert id="fastregister">
+        insert into login
+            (phone, role)
+            VALUE
+            (#{phone},#{role})
+    </insert>
+
+    <insert id="createUser">
+        insert into user
+            (phone, role)
+            VALUE
+            (#{phone},#{role})
+    </insert>
 </mapper>

@@ -12,7 +12,7 @@ class DaoyunApplicationTests {
     @Test
     public void setss(){
         Jedis jedis = new Jedis("139.224.2.119",6379);
-        jedis.set("name","zlw");
+        jedis.set("name","lll");
     }
 
 

@@ -18,20 +18,17 @@ import java.util.Map;
 public class JWTutil {
     private static String SECRET = "zlwzlwzlw";
 
-    public static String createToken(User user) throws Exception{
+    public static String createToken(String phone) throws Exception{
 
         Calendar instance = Calendar.getInstance();
-        instance.add(Calendar.SECOND, 20);
+        instance.add(Calendar.DATE, 7);
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("alg", "HS256");
         map.put("typ", "JWT");
         String token = JWT.create()
                 .withHeader(map)
-                .withClaim("number",user.getNumber())
-                .withClaim("name", user.getName()) // 存入claim的userId字段是int类型，而稍后要存入mysql的是String类型，解密后处理不当可能导致null
-                .withClaim("role", user.getRole())
-                .withClaim("phone",user.getPhone())
+                .withClaim("phone",phone)
                 .withExpiresAt(instance.getTime()) // 设置过期的日期
                 .sign(Algorithm.HMAC256(SECRET)); // 加密
         System.out.println(token);

@@ -9,4 +9,5 @@ public interface UserService {
     User getUser(String phone);
     int checkPhone(String phone);
     int register(Login login);
+    int fastregister(String phone);
 }

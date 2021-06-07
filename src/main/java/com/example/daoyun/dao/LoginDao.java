@@ -9,4 +9,6 @@ public interface LoginDao {
     public User getUser(String phone);
     public int checkPhone(String phone);
     public int register(String phone, String password, int role);
+    public int fastregister(String phone,int role);
+    public int createUser(String phone,int role);
 }

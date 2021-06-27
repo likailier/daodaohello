@@ -3,12 +3,12 @@ package com.example.daoyun.service.impl;
 import com.example.daoyun.dao.LoginDao;
 import com.example.daoyun.domain.Login;
 import com.example.daoyun.domain.User;
-import com.example.daoyun.exception.SweetException;
 import com.example.daoyun.service.UserService;
-import com.example.daoyun.util.ResultCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Transactional
 @Service
@@ -44,8 +44,50 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByPhone(String phone) {
+        return userDao.getUserByPhone(phone);
+    }
+
+    @Override
+    public int userInfo(User user) {
+        return userDao.userInfo(user);
+    }
+
+    @Override
+    public List<User> userList() {
+        return userDao.userList();
+    }
+
+    @Override
+    public int newUser(User user) {
+
+        Login login = new Login();
+        login.setPhone(user.getPhone());
+        login.setPassword("123456");
+        login.setRole(3);
+        user.setRole(3);
+        if (userDao.newUser(user)==1&&userDao.newLogin(login)==1){
+            return 1;
+        }
+            return 0;
+    }
+
+    @Override
+    public int deleteUser(String phone) {
+        if (userDao.deleteUser(phone)==1 && userDao.deleteLogin(phone)==1){
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
     public int checkPhone(String phone) {
         return userDao.checkPhone(phone);
+    }
+
+    @Override
+    public int checkNum(int number) {
+        return userDao.checkNum(number);
     }
 
 

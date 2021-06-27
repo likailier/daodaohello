@@ -18,12 +18,12 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
     @Resource
     private JWTInterceptor tokenInterceptor;
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(tokenInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/userlogin","/register","/sendsms","/fastlogin","/fastregister");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(tokenInterceptor)
+//                .addPathPatterns("/**")
+//                .excludePathPatterns("/userlogin","/register","/sendsms","/fastlogin","/fastregister");
+//    }
 
 
 }

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daoyun.dao.ClassDao">
+
+
+    <insert id="newClass">
+        insert into class(id,classnumber,classname,classsemester,teacherid,school,college,state)
+        VALUE (DEFAULT,#{classnumber},#{classname},#{classsemester},#{teacherid},#{school},#{college},#{state})
+    </insert>
+
+    <insert id="joinClass">
+        insert into student_class(studentclass_id,student_number,class_number,class_exp)
+        values (DEFAULT ,#{student_number},#{class_number},#{class_exp});
+    </insert>
+
+    <delete id="exitClass">
+        delete from student_class where student_number=#{student_number} and class_number=#{class_number}
+    </delete>
+
+    <delete id="deleteClass">
+        delete from class where classnumber=#{classnumber}
+    </delete>
+
+    <select id="checkJoinClass" resultType="java.lang.Integer">
+        select count(*) from student_class where student_number=#{student_number} and class_number=#{class_number}
+    </select>
+
+    <select id="checkClass" resultType="java.lang.Integer">
+        select count(*) from class where classnumber=#{classnumber}
+    </select>
+    
+    <select id="checkStudentClass" resultType="java.lang.Integer">
+        select count(*) from student_class where class_number=#{class_number}
+    </select>
+
+    <select id="tClassList" resultType="com.example.daoyun.domain.Class">
+        select * from class where teacherid=#{teacherid}
+    </select>
+
+    <select id="sClassList" resultType="com.example.daoyun.domain.Class">
+        SELECT class.* FROM class RIGHT JOIN student_class ON class.classnumber=student_class.class_number WHERE student_class.student_number=#{student_number}
+    </select>
+
+    <select id="classInfo" resultType="com.example.daoyun.domain.Class">
+        select * from class where classnumber=#{classnumber}
+    </select>
+
+    <select id="checkState" resultType="java.lang.Integer">
+        select state from class where classnumber=#{classnumber}
+    </select>
+
+    <select id="allClass" resultType="com.example.daoyun.domain.Class">
+        select * from class
+    </select>
+
+    <select id="studentList" resultType="com.example.daoyun.domain.User">
+        SELECT user.* FROM user RIGHT JOIN student_class ON user.number=student_class.student_number WHERE student_class.class_number=#{class_number}
+    </select>
+
+    <update id="changeClassState">
+        update class
+        <set>
+            <if test="state!=0">state=#{state},
+            </if>
+        </set>
+        where classnumber=#{classnumber}
+    </update>
+</mapper>

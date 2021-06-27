@@ -13,7 +13,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
                 .allowCredentials(true)
                 .allowedHeaders("*")    //允许任何头
                 .allowedOriginPatterns("*")    //允许任何域名
-                .allowedMethods("*");   //允许任何方法
+                .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE");   //允许任何方法
 
     }
 }

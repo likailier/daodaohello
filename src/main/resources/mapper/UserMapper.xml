@@ -16,8 +16,15 @@
         select * from `user` where phone = #{phone};
     </select>
 
+    <select id="getUserByPhone" resultType="com.example.daoyun.domain.User">
+        select * from user where phone=#{phone}
+    </select>
+
     <select id="checkPhone" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM `login` WHERE phone = #{phone}
+    </select>
+    <select id="checkNum" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `user` WHERE number = #{number}
     </select>
 
     <select id="userloginByPhone" resultType="java.lang.Integer">
@@ -44,4 +51,52 @@
             VALUE
             (#{phone},#{role})
     </insert>
+
+    <update id="userInfo">
+        update user
+        <set>
+            <if test="number!=0">number=#{number},
+            </if>
+            <if test="name!=null">name=#{name},
+            </if>
+            <if test="sex!=null">sex=#{sex},
+            </if>
+            <if test="email!=null">email=#{email},
+            </if>
+            <if test="birthday!=null">birthday=#{birthday},
+            </if>
+            <if test="school!=null">school=#{school},
+            </if>
+            <if test="college!=null">college=#{college},
+            </if>
+            <if test="major!=null">major=#{major},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+
+
+    <select id="userList" resultType="com.example.daoyun.domain.User">
+    select * from user
+</select>
+
+    <insert id="newUser">
+        insert into user(id,number,name,sex,phone,email,birthday,school,college,major,role)
+            VALUE (default ,#{number},#{name},#{sex},#{phone},#{email},#{birthday},#{school},#{college},#{major},#{role})
+    </insert>
+
+    <insert id="newLogin">
+        insert into login(id,phone,password,role)
+            VALUE (default ,#{phone},#{password},#{role})
+    </insert>
+
+    <delete id="deleteLogin">
+        delete from user where phone=#{phone}
+    </delete>
+
+    <delete id="deleteUser">
+        delete from login where phone=#{phone}
+    </delete>
 </mapper>

@@ -12,10 +12,14 @@
         <result column="order_number" property="sortNum"/>
     </resultMap>
 
-<insert id="insertDictDetail" parameterType="com.example.daoyun.domain.Dict">
+<insert id="insertDictDetail" useGeneratedKeys="true" keyProperty="id" parameterType="com.example.daoyun.domain.Dict">
     insert into dictionary_detail(dictionary_id,code,item_key,item_value,order_number,is_default)
-    VALUE (DEFAULT,#{code},#{itemkey},#{itemvalue},#{sortNum},#{isDefault})
+    VALUE (DEFAULT,#{code},#{itemkey},#{itemvalue},#{sortNum},0)
 </insert>
+
+<select id="checkDictDetail" resultType="java.lang.Integer">
+    select count(*) from dictionary_detail where code=#{code} and item_key=#{key}
+</select>
 
 <insert id="insertDictType" parameterType="com.example.daoyun.domain.Dict">
     insert into dictionary(dictionary_id,name,code)
@@ -49,6 +53,11 @@
     where dictionary_id=#{id}
 </update>
 
+<update id="changeDictSort">
+    update dictionary_detail set order_number=#{num} where dictionary_id=#{id}
+</update>
+
+
 <update id="updateDictType">
     update dictionary
     <set>
@@ -66,6 +75,10 @@
 
 <select id="selectDetailByCode" resultMap="DictMap">
     select * from dictionary_detail where code=#{code}
+</select>
+
+<select id="selectDetailOrder" resultType="java.lang.Integer">
+    select order_number from dictionary_detail where dictionary_id=#{id}
 </select>
 
 </mapper>

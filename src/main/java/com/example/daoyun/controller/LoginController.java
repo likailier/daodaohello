@@ -2,6 +2,8 @@ package com.example.daoyun.controller;
 
 
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import com.example.daoyun.domain.Login;
 import com.example.daoyun.domain.User;
@@ -45,7 +47,11 @@ public class LoginController {
             return Result.failure("0","参数出错");
         }
 
-        return Result.success().setCode("200").setMsg("登陆成功").setData(token);
+        Map resultMap = new HashMap();
+        resultMap.put("token",token);
+        resultMap.put("user",userService.getUserByPhone(login.getPhone()));
+
+        return Result.success().setCode("200").setMsg("登陆成功").setData(resultMap);
 
     }
 
@@ -70,7 +76,11 @@ public class LoginController {
                 e.printStackTrace();
                 return Result.failure("0","参数出错");
             }
-            return Result.success().setCode("200").setMsg("登陆成功").setData(token);
+            Map resultMap = new HashMap();
+            resultMap.put("token",token);
+            resultMap.put("user",userService.getUserByPhone(phone));
+
+            return Result.success().setCode("200").setMsg("登陆成功").setData(resultMap);
         }
         return Result.failure("0", "验证码错误");
     }

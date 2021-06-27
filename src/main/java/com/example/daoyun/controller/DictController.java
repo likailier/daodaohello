@@ -17,7 +17,12 @@ public class DictController {
 
     @PostMapping("/insertdictdetail")
     public Result insertDictDetail(@RequestBody Dict dictdetail){
+        if (dictService.checkDictDetail(dictdetail.getCode(),dictdetail.getItemkey()) >= 1){
+            return Result.failure("0","数值重复");
+        }
         if (dictService.insertDictDetail(dictdetail) == 1){
+            dictdetail.setSortNum(dictdetail.getId());
+            dictService.updateDictDetail(dictdetail);
             return Result.success().setCode("200").setMsg("插入成功");
         }
         return Result.failure("0","插入失败");
@@ -58,6 +63,14 @@ public class DictController {
     @PutMapping("/updatedicttype")
     public Result updateDictType(@RequestBody Dict dicttype){
         if (dictService.updateDictType(dicttype) == 1){
+            return Result.success().setCode("200").setMsg("修改成功");
+        }
+        return Result.failure("0","修改失败");
+    }
+
+    @PutMapping("/changedictsort/{id1}/{id2}")
+    public Result changeDictSort(@PathVariable int id1,@PathVariable int id2){
+        if (dictService.changeDictSort(id1,id2) == 1){
             return Result.success().setCode("200").setMsg("修改成功");
         }
         return Result.failure("0","修改失败");

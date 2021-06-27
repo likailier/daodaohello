@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daoyun.dao.MenuDao">
+
+
+    <insert id="newMenu">
+        insert into menu(id,name,role,url)
+        VALUE (DEFAULT,#{name},DEFAULT,#{url})
+    </insert>
+
+    <select id="checkMenu" resultType="java.lang.Integer">
+        select count(*) from menu where name=#{name}
+    </select>
+
+    <delete id="deleteMenu">
+        delete from menu where id=#{id}
+    </delete>
+
+
+    <select id="allMenu" resultType="com.example.daoyun.domain.Menu">
+        select * from menu
+    </select>
+
+    <select id="signDistance" resultType="com.example.daoyun.domain.Tsign">
+        select * from tsign where tsignid=#{tsignid}
+    </select>
+
+
+</mapper>

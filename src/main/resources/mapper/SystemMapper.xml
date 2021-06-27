@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.daoyun.dao.SystemDao">
+
+    <insert id="insertSys">
+        insert into system_parameter(id,pname,pkey,pvalue)
+        VALUE (DEFAULT ,#{pname},#{pkey},#{pvalue})
+    </insert>
+
+    <select id="checkSys" resultType="java.lang.Integer">
+        select count(*) from system_parameter where pkey=#{key}
+    </select>
+
+    <delete id="deleteSys">
+        delete from system_parameter where id=#{id}
+    </delete>
+
+    <update id="updateSys" >
+        update system_parameter
+        <set>
+            <if test="pname!=null">pname=#{pname},
+            </if>
+            <if test="pkey!=null">pkey=#{pkey},
+            </if>
+            <if test="pvalue!=null">pvalue=#{pvalue},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <select id="selectSys" resultType="com.example.daoyun.domain.System">
+        select * from system_parameter
+    </select>
+</mapper>

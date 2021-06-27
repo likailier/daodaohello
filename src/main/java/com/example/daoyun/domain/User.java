@@ -1,8 +1,10 @@
 package com.example.daoyun.domain;
 
-import java.util.Date;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class User{
+    private int id;
     private int number;
     private String name;
     private int sex;
@@ -28,6 +30,14 @@ public class User{
         this.college = college;
         this.major = major;
         this.role = role;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getNumber() {
@@ -74,8 +84,16 @@ public class User{
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setBirthday(String birthday) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date d = null;
+        try{
+            d = format.parse(birthday);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        java.sql.Date date = new java.sql.Date(d.getTime());
+        this.birthday = date;
     }
 
     public String getSchool() {

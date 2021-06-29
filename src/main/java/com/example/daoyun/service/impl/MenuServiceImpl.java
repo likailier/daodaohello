@@ -24,7 +24,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public int newMenu(Menu menu) {
-        menu.setUrl("/");
+        menu.setUrl("#/UserInfo");
         if (menuDao.checkMenu(menu.getName())>0){
             return 0;
         }

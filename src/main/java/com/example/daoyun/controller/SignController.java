@@ -72,7 +72,7 @@ public class SignController {
         return Result.success().setCode("200").setMsg("签到学生").setData(result);
     }
 
-    @GetMapping("/nosignlist")
+    @PostMapping("/nosignlist")
     public Result noSignList(@RequestBody Tsign tsign){
         List<User> nosignlist = signService.noSignList(tsign);
         return Result.success().setCode("200").setMsg("未签到学生").setData(nosignlist);

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.daoyun.dao.SignDao">
+
+
+    <insert id="teacherSign">
+        insert into tsign(tsignid,classnumber,longitude,latitude,tid,state,stime,etime,type)
+        VALUE (default ,#{classnumber},#{longitude},#{latitude},#{tid},#{state},#{stime},#{etime},#{type})
+    </insert>
+
+    <select id="checkSign" resultType="java.lang.Integer">
+        select count(*) from tsign where classnumber=#{classnumber} and state=1 and etime > #{stime}
+    </select>
+
+    <select id="checkStudentSign" resultType="java.lang.Integer">
+        select count(*) from ssign where tsignid=#{tsignid} and number=#{number}
+    </select>
+
+    <select id="selectTsignId" resultType="java.lang.Integer">
+        select tsignid from tsign where classnumber=#{classnumber} and state=1 and etime > #{stime}
+    </select>
+
+    <insert id="studentSign">
+        insert into ssign(ssignid,tsignid,number,longitude,latitude,distance,classnumber,name)
+        VALUE (default ,#{tsignid},#{number},#{longitude},#{latitude},#{distance},#{classnumber},#{name})
+    </insert>
+
+    <select id="signDistance" resultType="com.example.daoyun.domain.Tsign">
+        select * from tsign where tsignid =#{tsignid}
+    </select>
+
+    <update id="finishSign">
+        update tsign
+        <set>
+            state=0,
+        </set>
+        where tsignid=#{tsignid}
+    </update>
+
+
+    <select id="studentSignList" resultType="com.example.daoyun.domain.Ssign">
+        SELECT * from ssign where tsignid=#{tsignid}
+    </select>
+
+    <select id="classSignList" resultType="com.example.daoyun.domain.Tsign">
+        select * from tsign where classnumber=#{classnumber}
+    </select>
+
+    <select id="noSignList" resultType="java.lang.String" parameterType="com.example.daoyun.domain.Tsign" >
+        select student_class.student_number FROM student_class WHERE student_number NOT IN (SELECT number FROM ssign WHERE tsignid=#{tsignid}) AND class_number=#{classnumber}
+    </select>
+
+    <select id="noSignListName" resultType="com.example.daoyun.domain.User" parameterType="java.util.List">
+        select *
+        from user
+        where number in
+        <foreach collection="list" item="nosignlist" open="(" close=")" separator=",">
+            #{nosignlist}
+        </foreach>
+    </select>
+    
+    <insert id="suSign">
+      insert into ssign(ssignid,tsignid,number,distance,classnumber,name)
+      VALUE (default,#{tsignid},#{number},#{distance},#{classnumber},#{name})
+    </insert>
+
+
+</mapper>
